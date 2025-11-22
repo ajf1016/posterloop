@@ -29,17 +29,17 @@
             "properties": {
                 "posterloop.intervalMinutes": {
                     "type": "number",
-                    "default": 1,
+                    "default": 30,
                     "description": "Base minutes between reminders (used when no postpones)"
                 },
                 "posterloop.deepWorkThresholdMinutes": {
                     "type": "number",
-                    "default": 0.5,
+                    "default": 25,
                     "description": "Continuous activity (minutes) that qualifies as deep work"
                 },
                 "posterloop.idleThresholdSeconds": {
                     "type": "number",
-                    "default": 2,
+                    "default": 60,
                     "description": "Seconds of inactivity inside VS Code that marks the user as idle"
                 },
                 "posterloop.softDelayMinutes": {
