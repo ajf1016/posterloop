@@ -29,8 +29,28 @@
             "properties": {
                 "posterloop.intervalMinutes": {
                     "type": "number",
-                    "default": 30,
-                    "description": "Minutes between posture reminders"
+                    "default": 1,
+                    "description": "Base minutes between reminders (used when no postpones)"
+                },
+                "posterloop.deepWorkThresholdMinutes": {
+                    "type": "number",
+                    "default": 0.5,
+                    "description": "Continuous activity (minutes) that qualifies as deep work"
+                },
+                "posterloop.idleThresholdSeconds": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Seconds of inactivity inside VS Code that marks the user as idle"
+                },
+                "posterloop.softDelayMinutes": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "When in deep work and user requests postpone, postpone by this many minutes"
+                },
+                "posterloop.hardSnoozeMinutes": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Snooze length (minutes) offered on hard reminders"
                 }
             }
         }
