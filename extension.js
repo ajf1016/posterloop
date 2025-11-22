@@ -1,36 +1,89 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
+const vscode = require("vscode");
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+let statusBarItem;
+let timer;
+let nextDueAt;
+let uiInterval;
 
-/**
- * @param {vscode.ExtensionContext} context
- */
+function updateStatusBar() {
+    if (!statusBarItem) return;
+    if (uiInterval) clearInterval(uiInterval);
+    uiInterval = setInterval(() => {
+        updateStatusBar();
+    }, 1000);
+    if (!nextDueAt) {
+        statusBarItem.text = "$(clock) PostureLoop: inactive";
+        statusBarItem.tooltip = "Start PostureLoop reminders";
+        statusBarItem.command = "posterloop.start";
+    } else {
+        const remaining = Math.max(0, nextDueAt - Date.now());
+        const mins = Math.floor(remaining / 1000 / 60);
+        const secs = Math.floor((remaining / 1000) % 60);
+        statusBarItem.text = `$(clock) Break in ${mins}:${secs
+            .toString()
+            .padStart(2, "0")}`;
+        statusBarItem.tooltip = "Stop PostureLoop reminders";
+        statusBarItem.command = "posterloop.stop";
+    }
+    statusBarItem.show();
+}
+
+function scheduleNext(context) {
+    const ms = 1 * 60 * 1000; // or your config
+    nextDueAt = Date.now() + ms;
+
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+        vscode.window.showInformationMessage(
+            'PostureLoop: Time to take a short break — stand up, stretch, look away for 30s.'
+        );
+        scheduleNext(context);
+    }, ms);
+
+    updateStatusBar();
+
+    if (uiInterval) clearInterval(uiInterval);
+    uiInterval = setInterval(() => {
+        updateStatusBar();
+    }, 1000);
+}
+
+
 function activate(context) {
+    console.log("PostureLoop activated");
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "posterloop" is now active!');
+    statusBarItem = vscode.window.createStatusBarItem(
+        vscode.StatusBarAlignment.Right,
+        100
+    );
+    context.subscriptions.push(statusBarItem);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('posterloop.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+    const startCmd = vscode.commands.registerCommand("posterloop.start", () => {
+        scheduleNext(context);
+        vscode.window.showInformationMessage("PostureLoop started.");
+    });
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from PosterLoop!');
-	});
+    const stopCmd = vscode.commands.registerCommand('posterloop.stop', () => {
+    if (timer) {
+        clearTimeout(timer);
+        timer = undefined;
+        nextDueAt = undefined;
+        if (uiInterval) clearInterval(uiInterval);
+        updateStatusBar();
+        vscode.window.showInformationMessage('PostureLoop stopped.');
+    } else {
+        vscode.window.showInformationMessage('PostureLoop is not running.');
+    }
+});
 
-	context.subscriptions.push(disposable);
+    context.subscriptions.push(startCmd, stopCmd);
+
+    // show status bar initially
+    updateStatusBar();
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
-
-module.exports = {
-	activate,
-	deactivate
+function deactivate() {
+    if (timer) clearTimeout(timer);
 }
+
+module.exports = { activate, deactivate };
