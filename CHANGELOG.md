@@ -4,7 +4,7 @@ All notable changes to **PostureLoop** will be documented here.
 
 ---
 
-## [0.0.1] – Initial Release
+## [0.0.2] – Initial Release
 ### Added
 - Adaptive reminder engine (deep work vs idle detection)
 - Status bar live countdown (updates every second)
