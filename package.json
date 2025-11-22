@@ -4,12 +4,23 @@
     "description": "gentle, configurable reminders that nudge developers to sit, stretch, and stop slouching without breaking flow.",
     "publisher": "ajf1016",
     "repository": { "type": "git", "url": "https://github.com/ajf1016/posterloop" },
-    "version": "0.0.1",
+    "homepage": "https://github.com/ajf1016/posterloop",
+    "version": "0.0.2",
+    "icon": "images/icon.png",
     "engines": {
         "vscode": "^1.105.1"
     },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "posture",
+        "health",
+        "break",
+        "productivity",
+        "ergonomics",
+        "focus",
+        "timer"
     ],
     "activationEvents": [
         "onStartupFinished"
@@ -53,6 +64,11 @@
                     "type": "number",
                     "default": 1,
                     "description": "Snooze length (minutes) offered on hard reminders"
+                },
+                "posterloop.breakDurationSeconds": {
+                    "type": "number",
+                    "default": 30,
+                    "description": "Duration of break countdown webview in seconds"
                 }
             }
         }
