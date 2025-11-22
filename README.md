@@ -1,65 +1,111 @@
-# posterloop README
+# PostureLoop — Smart Posture & Break Reminders for Developers
 
-This is the README for your extension "posterloop". After writing up a brief description, we recommend including the following sections.
+PostureLoop is an adaptive, non-annoying VS Code extension that helps you stay healthy while coding.  
+It detects your activity patterns and delivers reminders that respect your deep-focus workflow instead of interrupting it blindly.
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+No spam. No popups every 20 minutes. Just intelligent nudges at the right moment.
 
 ---
 
-## Working with Markdown
+## Features
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+### Adaptive Reminder System
+PostureLoop watches your editor activity (typing, selections, focus) to understand *how* you're working:
+- **Deep Work** → Minimal, soft reminders that don’t break your focus.
+- **Idle / Browsing** → Stronger reminders when you’re not in the zone.
+- **Smart delays** when you're actively typing or navigating code.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+This keeps your workflow smooth while still keeping you healthy.
 
-## For more information
+---
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### Live Status Bar Countdown
+A sleek timer in the status bar updates every second:
+- Shows time left until your next break
+- Click to **start** or **stop** reminders instantly
 
-**Enjoy!**
+---
+
+### Beautiful Break Webview (30-second micro-break)
+When it’s time to reset:
+- A clean modal-style webview appears
+- Animated circular countdown
+- Quick actions: **Done** or **Snooze**
+- Auto-closes when the timer ends
+
+---
+
+### Fully Customizable
+Configure everything in VS Code Settings:
+- Reminder interval
+- Deep-work threshold
+- Idle detection sensitivity
+- Soft/hard reminder durations
+- Break length
+- Snooze/Postpone behavior
+
+---
+
+## Settings
+
+| Setting | Description | Default |
+|--------|-------------|---------|
+| `posterloop.intervalMinutes` | Base interval for reminders | `30` |
+| `posterloop.deepWorkThresholdMinutes` | Continuous activity counted as deep work | `25` |
+| `posterloop.idleThresholdSeconds` | Idle detection threshold | `60` |
+| `posterloop.softDelayMinutes` | Postpone time for soft reminders | `5` |
+| `posterloop.hardSnoozeMinutes` | Snooze time for hard reminders | `1` |
+| `posterloop.breakDurationSeconds` | Duration of break webview countdown | `30` |
+
+---
+
+## Why PostureLoop?
+
+Most break reminders are:
+- too aggressive  
+- badly timed  
+- disruptive  
+- impossible to follow while coding  
+
+PostureLoop focuses on *flow-friendly ergonomics*.  
+It reminds you only when it makes sense — and keeps quiet when you're in the zone.
+
+---
+
+## Commands
+
+| Command | Action |
+|---------|--------|
+| `PostureLoop: Start Reminders` | Start break/ergonomics reminders |
+| `PostureLoop: Stop Reminders` | Stop all timers |
+| `PostureLoop: Dump Commands (debug)` | For debugging extension commands |
+
+---
+
+## How It Works (short version)
+
+- Tracks VS Code activity events (`onDidChangeTextDocument`, selections, window focus)
+- Detects deep-work or idle states
+- Schedules reminders with a recursive `setTimeout` loop
+- Renders a Webview UI for break sessions
+- Uses status bar + settings for customization
+
+---
+
+## Privacy
+
+PostureLoop **does not store or send any data externally.**  
+All activity detection stays inside VS Code and never leaves your machine.
+
+---
+
+## License
+MIT License — free to use, modify, and contribute.
+
+---
+
+## ❤️ Contribute
+Issues, feature suggestions, and PRs are always welcome.
+
+---
+
